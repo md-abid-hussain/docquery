@@ -4,6 +4,8 @@
 
 DocQuery is a comprehensive project consisting of both frontend and backend components. The frontend is built with Next.js and Tailwind CSS, providing a user-friendly interface to create powerful knowledge bases for LLMs using markdown documentation. The backend leverages FastAPI to provide endpoints for different agents built using the `langgraph` library and integrated into the FastAPI application using `CopilotKitSDK`.
 
+## Video: Click to view
+[![Youtube Video](https://i.ytimg.com/an_webp/nYDthsB8d7I/mqdefault_6s.webp?du=3000&sqp=CPDQurwG&rs=AOn4CLDjBKGO2rApO0v6Wqhb8BJ8wCk4dA)](https://youtu.be/nYDthsB8d7I?si=uOEHGZB2A7DRpMsn)
 
 ## Setup
 
