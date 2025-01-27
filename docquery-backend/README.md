@@ -46,17 +46,25 @@ DocQuery is a backend service that leverages `FastAPI` to provide endpoints for 
 
 ### Ingestion Agent
 
-The Ingestion Agent is defined in [agent.py](http://_vscodecontentref_/9). It consists of the following nodes:
+The Ingestion Agent is defined in `agent/ingestion_agent`. It consists of the following nodes:
 
 - `Ingestion Node`
 - `Verify Ingestion Node`
 
+#### Diagram
+
+![Ingestion Agent Diagram](assets/ingestion_agent.png)
+
 ### QA Agent
 
-The QA Agent is defined in [agent.py](http://_vscodecontentref_/10). It consists of the following nodes:
+The QA Agent is defined in `agent/qa_agent`. It consists of the following nodes:
 
 - `Retrieve Node`
 - `Chat Node`
+
+#### Diagram
+
+![QA Agent Diagram](assets/qa_agent.png)
 
 ## Environment Variables
 
