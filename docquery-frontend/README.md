@@ -4,21 +4,23 @@
 
 DocQuery is a frontend application built with Next.js and Tailwind CSS. It provides a user-friendly interface to create powerful knowledge bases for LLMs using markdown documentation.
 
-
 ## Setup
 
 1. Clone the repository:
+
     ```sh
     git clone <repository-url>
     cd docquery-frontend
     ```
 
 2. Install dependencies:
+
     ```sh
     npm install
     ```
 
 3. Copy the example environment file and fill in the required values:
+
     ```sh
     cp .env.example .env
     ```
@@ -26,6 +28,7 @@ DocQuery is a frontend application built with Next.js and Tailwind CSS. It provi
 ## Running the Application
 
 1. Start the development server:
+
     ```sh
     npm run dev
     ```
