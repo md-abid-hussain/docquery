@@ -1,9 +1,9 @@
 import Link from "next/link"
-import { Hero } from "@/components/other/hero"
-import { CTA } from "@/components/other/cta"
-import { Features } from "@/components/other/features"
-import { Benefits } from "@/components/other/benefits"
-import { TechStack } from "@/components/other/tech-stack"
+import { Hero } from "@/components/landing-page-components/hero"
+import { CTA } from "@/components/landing-page-components/cta"
+import { Features } from "@/components/landing-page-components/features"
+import { Benefits } from "@/components/landing-page-components/benefits"
+import { TechStack } from "@/components/landing-page-components/tech-stack"
 
 import { Mountain } from "lucide-react"
 

@@ -3,7 +3,7 @@
 import React, { useState } from 'react'
 import { Checkbox } from "@/components/ui/checkbox"
 import { Button } from "@/components/ui/button"
-import { ChevronDown, ChevronRight, File, Folder, ChevronUp } from 'lucide-react'
+import { ChevronDown, ChevronRight, File, ChevronUp } from 'lucide-react'
 import { parseFileTree, FileNode, getAllDescendantPaths } from '@/lib/fileTree'
 import { cn } from '@/lib/utils'
 import { Card } from './ui/card'

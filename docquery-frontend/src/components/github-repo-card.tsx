@@ -16,7 +16,6 @@ const GitHubRepoCard: React.FC<GitHubRepoCardProps> = ({ repoName }) => {
     const [error, setError] = useState<string | null>(null);
     const [owner, repo] = repoName.split('/');
 
-
     const formatStarCount = (count: number) => {
         if (count >= 1000) {
             return `${(count / 1000).toFixed(1)}k`;
@@ -30,7 +29,6 @@ const GitHubRepoCard: React.FC<GitHubRepoCardProps> = ({ repoName }) => {
             setError(null);
 
             try {
-                
                 const response = await fetch(`https://api.github.com/repos/${owner}/${repo}`);
                 if (!response.ok) {
                     throw new Error(response.status === 404 ? 'Repository not found' : 'Failed to fetch repository info');
@@ -56,7 +54,7 @@ const GitHubRepoCard: React.FC<GitHubRepoCardProps> = ({ repoName }) => {
         };
 
         fetchRepoInfo();
-    }, [repoName]);
+    }, []);
 
     return (
         <div >

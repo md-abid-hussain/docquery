@@ -12,6 +12,7 @@ const useRepoDetails = (owner: string, repo: string) => {
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
+        console.log("am i running it multiple times?")
         const fetchRepoDetails = async () => {
             setLoading(true);
             setError(null);

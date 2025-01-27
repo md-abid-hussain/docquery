@@ -2,7 +2,7 @@
 
 import { useParams } from 'next/navigation';
 import { useEffect } from 'react';
-import { useCoAgent, useCopilotReadable, useCopilotChat } from '@copilotkit/react-core';
+import { useCoAgent, useCopilotReadable } from '@copilotkit/react-core';
 import { CopilotChat } from '@copilotkit/react-ui';
 import { QAAgentState } from '@/lib/types';
 import useRepoDetails from '@/hooks/useRepoDetails';
@@ -15,20 +15,20 @@ const ChatRepoPage = () => {
         return <div>Loading...</div>;
     }
 
-    const { repoDetails, loading, error } = useRepoDetails(owner as string, repo as string);
+    const { repoDetails } = useRepoDetails(owner as string, repo as string);
 
     useCopilotReadable({
         description: "use qa agent to answer this",
         value: "qa_agent",
     });
 
-    
+
     const { state, setState } = useCoAgent<QAAgentState>({
         name: "qa_agent",
         initialState: {
             question: "",
             repository_name: `${owner}/${repo}`,
-            messages:[]
+            messages: []
         }
     });
 
@@ -49,7 +49,10 @@ const ChatRepoPage = () => {
             </div>
             <div className="flex flex-col">
                 <CopilotChat
-                    labels={{ title: `Ask any question related to $` }}
+                    labels={{
+                        title: "Your Assistant",
+                        initial: "Hi! 👋 How can I assist you today?",
+                    }}
                     onSubmitMessage={(message) => {
                         setState({ ...state, question: message });
                     }}

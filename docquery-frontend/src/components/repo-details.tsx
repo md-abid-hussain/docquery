@@ -1,6 +1,6 @@
 import React from 'react';
-import { GithubCard } from '@/components/GithubCard';
-import { GitHubRepoFiles } from '@/components/GithubRepoFiles';
+import { GithubCard } from '@/components/github-card';
+import { GitHubRepoFiles } from '@/components/github-repo-files';
 import { RepoInfo } from '@/lib/types';
 
 interface RepoDetailsProps {

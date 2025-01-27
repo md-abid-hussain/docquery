@@ -5,6 +5,7 @@
 DocQuery is a comprehensive project consisting of both frontend and backend components. The frontend is built with Next.js and Tailwind CSS, providing a user-friendly interface to create powerful knowledge bases for LLMs using markdown documentation. The backend leverages FastAPI to provide endpoints for different agents built using the `langgraph` library and integrated into the FastAPI application using `CopilotKitSDK`.
 
 ## Video: Click to view
+
 [![Youtube Video](https://img.youtube.com/vi/nYDthsB8d7I/maxresdefault.jpg)](https://youtu.be/nYDthsB8d7I?si=uOEHGZB2A7DRpMsn)
 
 ## Setup
@@ -12,22 +13,26 @@ DocQuery is a comprehensive project consisting of both frontend and backend comp
 ### Frontend
 
 1. Clone the repository:
+
     ```sh
     git clone <repository-url>
     cd docquery-frontend
     ```
 
 2. Install dependencies:
+
     ```sh
     npm install
     ```
 
 3. Copy the example environment file and fill in the required values:
+
     ```sh
     cp .env.example .env
     ```
 
 4. Start the development server:
+
     ```sh
     npm run dev
     ```
@@ -37,28 +42,33 @@ DocQuery is a comprehensive project consisting of both frontend and backend comp
 ### Backend
 
 1. Clone the repository:
+
     ```sh
     git clone <repository-url>
     cd docquery-backend
     ```
 
 2. Create and activate a virtual environment:
+
     ```sh
     python -m venv venv
     source venv/bin/activate  # On Windows use `venv\Scripts\activate`
     ```
 
 3. Install dependencies:
+
     ```sh
     pip install -r requirements.txt
     ```
 
 4. Copy the example environment file and fill in the required values:
+
     ```sh
     cp .env.example .env
     ```
 
 5. Start the FastAPI server:
+
     ```sh
     uvicorn app.main:app --reload
     ```
@@ -79,12 +89,14 @@ DocQuery is a comprehensive project consisting of both frontend and backend comp
 #### Ingestion Agent
 
 The Ingestion Agent is defined in agent.py. It consists of the following nodes:
+
 - `Ingestion Node`
 - `Verify Ingestion Node`
 
 #### QA Agent
 
 The QA Agent is defined in agent.py. It consists of the following nodes:
+
 - `Retrieve Node`
 - `Chat Node`
 

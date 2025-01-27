@@ -26,7 +26,7 @@ export const Markdown = ({ content }: MarkdownProps) => {
 
 const components: Components = {
   p({ children }) {
-    return <p>{children}</p>;
+    return <p className="text-black">{children}</p>;
   },
   a({ children, ...props }) {
     return (

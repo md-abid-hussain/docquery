@@ -78,7 +78,7 @@ export { CodeBlock };
 // (Next.js classic) setup.
 const highlightStyle: any = {
   'pre[class*="language-"]': {
-    color: "#d4d4d4",
+    color: "#ffffff",
     fontSize: "13px",
     textShadow: "none",
     fontFamily: 'Menlo, Monaco, Consolas, "Andale Mono", "Ubuntu Mono", "Courier New", monospace',
@@ -98,10 +98,10 @@ const highlightStyle: any = {
     padding: "1em",
     margin: ".5em 0",
     overflow: "auto",
-    background: "#1e1e1e",
+    background: "#000000",
   },
   'code[class*="language-"]': {
-    color: "#d4d4d4",
+    color: "#ffffff",
     fontSize: "13px",
     textShadow: "none",
     fontFamily: 'Menlo, Monaco, Consolas, "Andale Mono", "Ubuntu Mono", "Courier New", monospace',
@@ -139,7 +139,7 @@ const highlightStyle: any = {
     padding: ".1em .3em",
     borderRadius: ".3em",
     color: "#db4c69",
-    background: "#1e1e1e",
+    background: "#000000",
   },
   ".namespace": {
     Opacity: ".7",

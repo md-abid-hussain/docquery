@@ -1,3 +1,5 @@
+import { Message } from "@copilotkit/runtime-client-gql";
+
 export type RepoInfo = {
     name: string;
     description: string;
@@ -40,5 +42,4 @@ export type IngestionAgentState = {
 export type QAAgentState = {
     repository_name:string;
     question: string;
-    prev_repo_name?:string;
 }
