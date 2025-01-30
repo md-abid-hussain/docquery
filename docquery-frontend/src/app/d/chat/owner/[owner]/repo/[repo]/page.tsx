@@ -2,14 +2,17 @@
 
 import { useParams } from 'next/navigation';
 import { useEffect } from 'react';
-import { useCoAgent, useCopilotReadable } from '@copilotkit/react-core';
+import { useCoAgent, useCopilotReadable, useCopilotMessagesContext, useCopilotContext } from '@copilotkit/react-core';
 import { CopilotChat } from '@copilotkit/react-ui';
 import { QAAgentState } from '@/lib/types';
 import useRepoDetails from '@/hooks/useRepoDetails';
 import CopilotTextMessage from '@/components/copilot/copilot-text-message';
 
 const ChatRepoPage = () => {
+
     const { owner, repo } = useParams();
+    const { setMessages } = useCopilotMessagesContext();
+    const { setAgentSession } = useCopilotContext()
 
     if (!owner || !repo) {
         return <div>Loading...</div>;
@@ -30,6 +33,7 @@ const ChatRepoPage = () => {
             repository_name: `${owner}/${repo}`,
             messages: []
         }
+
     });
 
     useEffect(() => {
@@ -37,6 +41,10 @@ const ChatRepoPage = () => {
             question: "",
             repository_name: `${owner}/${repo}`,
         })
+        return () => {
+            setMessages([]);
+            setAgentSession(null);
+        }
     }, []);
 
     return (

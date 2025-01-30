@@ -11,17 +11,21 @@ app = FastAPI()
 sdk = CopilotKitSDK(
     agents=[
         LangGraphAgent(
-            name="ingestion_agent", graph=ingestion_agent_graph, description="Ingestion Agent"
+            name="ingestion_agent",
+            graph=ingestion_agent_graph,
+            description="Ingestion Agent",
         ),
         LangGraphAgent(
-            name="qa_agent", graph=qa_agent_graph, description="QA Agent"
-        )
+            name="qa_agent",
+            graph=qa_agent_graph,
+            description="QA Agent"
+        ),
     ]
 )
 
 add_fastapi_endpoint(app, sdk, "/copilotkit")
 
 
-@app.get("/")
+@app.get("/test")
 def read_root():
-    return {"Hello": "World"}
+    return "running"

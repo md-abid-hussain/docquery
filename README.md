@@ -15,7 +15,7 @@ DocQuery is a comprehensive project consisting of both frontend and backend comp
 1. Clone the repository:
 
     ```sh
-    git clone <repository-url>
+    git clone https://github.com/md-abid-hussain/docquery.git
     cd docquery-frontend
     ```
 
