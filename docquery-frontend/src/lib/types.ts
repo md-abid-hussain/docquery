@@ -1,4 +1,3 @@
-import { Message } from "@copilotkit/runtime-client-gql";
 
 export type RepoInfo = {
     name: string;

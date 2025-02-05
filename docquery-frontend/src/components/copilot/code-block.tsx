@@ -1,5 +1,6 @@
 import { FC, memo } from "react";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
+import { CSSProperties } from "react";
 
 interface Props {
   language: string;
@@ -47,7 +48,6 @@ export const generateRandomString = (length: number, lowercase = false) => {
 };
 
 const CodeBlock: FC<Props> = memo(({ language, value }) => {
- 
   return (
     <div className="copilotKitCodeBlock">
       <div className="copilotKitCodeBlockToolbar">
@@ -76,13 +76,13 @@ export { CodeBlock };
 // As a workaround, we inline the vscDarkPlus from react-syntax-highlighter.
 // Importing it as recommended in the documentation leads to build errors in the non app router
 // (Next.js classic) setup.
-const highlightStyle: any = {
+const highlightStyle: { [key: string]: CSSProperties } = {
   'pre[class*="language-"]': {
     color: "#ffffff",
     fontSize: "13px",
     textShadow: "none",
     fontFamily: 'Menlo, Monaco, Consolas, "Andale Mono", "Ubuntu Mono", "Courier New", monospace',
-    direction: "ltr",
+    direction: "ltr" as const,
     textAlign: "left",
     whiteSpace: "pre",
     wordSpacing: "normal",
@@ -105,7 +105,7 @@ const highlightStyle: any = {
     fontSize: "13px",
     textShadow: "none",
     fontFamily: 'Menlo, Monaco, Consolas, "Andale Mono", "Ubuntu Mono", "Courier New", monospace',
-    direction: "ltr",
+    direction: "ltr" as const,
     textAlign: "left",
     whiteSpace: "pre",
     wordSpacing: "normal",
@@ -142,7 +142,7 @@ const highlightStyle: any = {
     background: "#000000",
   },
   ".namespace": {
-    Opacity: ".7",
+    opacity: ".7",
   },
   "doctype.doctype-tag": {
     color: "#569CD6",
