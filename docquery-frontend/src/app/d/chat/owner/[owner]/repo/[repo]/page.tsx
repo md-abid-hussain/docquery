@@ -5,6 +5,7 @@ import { useEffect } from 'react';
 import { useCoAgent, useCopilotReadable, useCopilotMessagesContext, useCopilotContext } from '@copilotkit/react-core';
 import { CopilotChat } from '@copilotkit/react-ui';
 import { QAAgentState } from '@/lib/types';
+import { Loader2 } from 'lucide-react'
 import useRepoDetails from '@/hooks/useRepoDetails';
 import CopilotTextMessage from '@/components/copilot/copilot-text-message';
 
@@ -13,10 +14,6 @@ const ChatRepoPage = () => {
     const { owner, repo } = useParams();
     const { setMessages } = useCopilotMessagesContext();
     const { setAgentSession } = useCopilotContext()
-
-    if (!owner || !repo) {
-        return <div>Loading...</div>;
-    }
 
     const { repoDetails } = useRepoDetails(owner as string, repo as string);
 
@@ -47,6 +44,13 @@ const ChatRepoPage = () => {
         }
     }, []);
 
+    if (!owner || !repo) {
+        return <div className='min-h-96 flex justify-center items-center'>
+            <Loader2 className='animate-spin' />
+        </div>;
+    }
+
+
     return (
         <div className='py-4'>
             <div className='flex bg-slate-50 -mt-10 items-center p-4'>
@@ -67,7 +71,7 @@ const ChatRepoPage = () => {
                     RenderTextMessage={(props) => {
                         return (
                             <CopilotTextMessage
-                                key={props.message.id} // Ensure stable key
+                                key={props.message.id}
                                 renderMessageProps={props}
                                 repoProps={{ imageUrl: repoDetails?.image_url as string, repoName: repo as string }}
                             />
