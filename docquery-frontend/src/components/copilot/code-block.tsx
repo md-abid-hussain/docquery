@@ -49,14 +49,14 @@ export const generateRandomString = (length: number, lowercase = false) => {
 
 const CodeBlock: FC<Props> = memo(({ language, value }) => {
   return (
-    <div className="copilotKitCodeBlock">
-      <div className="copilotKitCodeBlockToolbar">
-        <span className="copilotKitCodeBlockToolbarLanguage">{language}</span>
-      </div>
+    <span className="copilotKitCodeBlock block">
+      <span className="copilotKitCodeBlockToolbar block">
+        <span className="copilotKitCodeBlockToolbarLanguage block">{language}</span>
+      </span>
       <SyntaxHighlighter
         language={language}
         style={highlightStyle}
-        PreTag="div"
+        PreTag="p"
         customStyle={{
           margin: 0,
           borderBottomLeftRadius: "0.375rem",
@@ -65,7 +65,7 @@ const CodeBlock: FC<Props> = memo(({ language, value }) => {
       >
         {value}
       </SyntaxHighlighter>
-    </div>
+    </span>
   );
 });
 CodeBlock.displayName = "CodeBlock";
