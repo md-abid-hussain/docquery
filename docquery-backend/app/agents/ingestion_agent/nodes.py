@@ -30,7 +30,10 @@ async def ingestion_node(state: IngestionAgentState, config: RunnableConfig):
             document_content = loader.get_file_content_by_path(file_path)
             document = Document(
                 page_content=document_content,
-                metadata={"file_path": file_path, "repo": state["repo"]["full_name"]},
+                metadata={
+                    "file_path": file_path,
+                    "repo": state["repo"]["full_name"]
+                },
             )
 
             split_docs = text_splitter.split_documents([document])
@@ -41,7 +44,9 @@ async def ingestion_node(state: IngestionAgentState, config: RunnableConfig):
         return state
 
 
-async def verify_ingestion_node(state: IngestionAgentState, config: RunnableConfig):
+async def verify_ingestion_node(
+        state: IngestionAgentState,
+        config: RunnableConfig):
     if state["error"]:
         state["status"] = "FAILED"
     else:
