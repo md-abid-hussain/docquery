@@ -27,10 +27,10 @@
     "next-themes": "^0.4.4",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "react-markdown": "^8.0.7",
-    "remark-gfm": "^3.0.1",
-    "remark-math": "^5.1.1",
+    "react-markdown": "^9.0.3",
     "react-syntax-highlighter": "^15.6.1",
+    "remark-gfm": "^4.0.0",
+    "remark-math": "^6.0.0",
     "tailwind-merge": "^2.6.0",
     "tailwindcss-animate": "^1.0.7"
   },

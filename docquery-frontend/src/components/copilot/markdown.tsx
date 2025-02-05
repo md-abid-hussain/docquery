@@ -40,9 +40,9 @@ const components: Components = {
       </a>
     );
   },
-  code({ children, className, inline, ...props }) {
-    if (children.length) {
-      if (children[0] == "▍") {
+  code({ children, className, ...props }) {
+    if (Array.isArray(children) && children.length > 0) {
+      if (typeof children[0] === "string" && children[0] === "▍") {
         return (
           <span
             style={{
@@ -55,18 +55,12 @@ const components: Components = {
         );
       }
 
-      children[0] = (children[0] as string).replace("`▍`", "▍");
+      if (typeof children[0] === "string") {
+        children[0] = children[0].replace("`▍`", "▍");
+      }
     }
 
     const match = /language-(\w+)/.exec(className || "");
-
-    if (inline) {
-      return (
-        <code className={className} {...props}>
-          {children}
-        </code>
-      );
-    }
 
     return (
       <CodeBlock
