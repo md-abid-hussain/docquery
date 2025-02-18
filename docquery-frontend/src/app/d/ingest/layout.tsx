@@ -48,8 +48,8 @@ export function UnauthorizedAccess() {
         </CardHeader>
         <CardContent className="space-y-2">
           <p className="text-muted-foreground">
-            Sorry, you don&apos;t have permission to access this page. This area is
-            restricted to administrators only.
+            Sorry, you don&apos;t have permission to access this page. This area
+            is restricted to administrators only.
           </p>
         </CardContent>
         <CardFooter>

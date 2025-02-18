@@ -47,11 +47,11 @@ const GitHubRepoCard: React.FC<GitHubRepoCardProps> = ({
           const error = await response.json();
           throw new Error(
             error.message ||
-            (response.status === 404
-              ? "Repository not found"
-              : response.status === 403
-                ? "API rate limit exceeded"
-                : "Failed to fetch repository info")
+              (response.status === 404
+                ? "Repository not found"
+                : response.status === 403
+                  ? "API rate limit exceeded"
+                  : "Failed to fetch repository info"),
           );
         }
 
@@ -103,7 +103,7 @@ const GitHubRepoCard: React.FC<GitHubRepoCardProps> = ({
         "p-4 group relative",
         "transition-all duration-200",
         "hover:shadow-md hover:border-primary/20",
-        className
+        className,
       )}
     >
       {/* Main card link */}
