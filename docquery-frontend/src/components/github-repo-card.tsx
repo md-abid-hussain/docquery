@@ -41,22 +41,17 @@ const GitHubRepoCard: React.FC<GitHubRepoCardProps> = ({
       setError(null);
 
       try {
-        const response = await fetch(
-          `https://api.github.com/repos/${owner}/${repo}`,
-          {
-            headers: {
-              Authorization: `Bearer ${process.env.NEXT_PUBLIC_GITHUB_ACCESS_TOKEN}`,
-            },
-          },
-        );
+        const response = await fetch(`/api/github?owner=${owner}&repo=${repo}`);
 
         if (!response.ok) {
+          const error = await response.json();
           throw new Error(
-            response.status === 404
+            error.message ||
+            (response.status === 404
               ? "Repository not found"
               : response.status === 403
                 ? "API rate limit exceeded"
-                : "Failed to fetch repository info",
+                : "Failed to fetch repository info")
           );
         }
 
@@ -108,7 +103,7 @@ const GitHubRepoCard: React.FC<GitHubRepoCardProps> = ({
         "p-4 group relative",
         "transition-all duration-200",
         "hover:shadow-md hover:border-primary/20",
-        className,
+        className
       )}
     >
       {/* Main card link */}
