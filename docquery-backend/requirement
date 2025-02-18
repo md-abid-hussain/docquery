@@ -1,0 +1,10 @@
+langchain
+langgraph
+langchain-community
+langchain-together
+langchain-mongodb
+pymongo
+langchain-google-genai
+copilotkit
+fastapi[standard]
+uvicorn

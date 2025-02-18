@@ -2,8 +2,6 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "@copilotkit/react-ui/styles.css";
 import "./globals.css";
-import "./markdown.css"
-
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -17,10 +15,11 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "DocQuery",
-  description: "Create powerful knowledge bases for LLMs using your markdown documentation.",
+  description:
+    "Create powerful knowledge bases for LLMs using your markdown documentation.",
 };
 
-import { CopilotKit } from "@copilotkit/react-core";
+// import { CopilotKit } from "@copilotkit/react-core";
 
 export default function RootLayout({
   children,
@@ -32,11 +31,11 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <CopilotKit runtimeUrl="/api/copilotkit" showDevConsole={false}>
-            
-              {children}
+        {/* <CopilotKit runtimeUrl="/api/copilotkit" showDevConsole={false}> */}
 
-        </CopilotKit>
+        {children}
+
+        {/* </CopilotKit> */}
       </body>
     </html>
   );

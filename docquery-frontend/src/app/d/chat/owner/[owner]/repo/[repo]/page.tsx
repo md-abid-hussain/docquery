@@ -1,86 +1,49 @@
-'use client'
+"use client";
 
-import { useParams } from 'next/navigation';
-import { useEffect } from 'react';
-import { useCoAgent, useCopilotReadable, useCopilotMessagesContext, useCopilotContext } from '@copilotkit/react-core';
-import { CopilotChat } from '@copilotkit/react-ui';
-import { QAAgentState } from '@/lib/types';
-import { Loader2 } from 'lucide-react'
-import useRepoDetails from '@/hooks/useRepoDetails';
-import CopilotTextMessage from '@/components/copilot/copilot-text-message';
+import { useParams } from "next/navigation";
+import { CopilotKit } from "@copilotkit/react-core";
+import { RawGithubRepoDetails } from "@/lib/types";
+import { Loader2 } from "lucide-react";
+import useRepoDetails from "@/hooks/useRepoDetails";
+import { useSession } from "next-auth/react";
+import { ChatInterface } from "@/components/chat-ui/chat-interface";
+import { cn } from "@/lib/utils";
+
+const LoadingSpinner = () => (
+  <div className="min-h-[calc(100vh-5rem)] flex justify-center items-center">
+    <Loader2 className="h-12 w-12 animate-spin text-primary/60" />
+  </div>
+);
 
 const ChatRepoPage = () => {
+  const { owner, repo } = useParams();
+  const { repoDetails, loading: isLoadingRepo } = useRepoDetails(
+    owner as string,
+    repo as string,
+  );
+  const { data: session, status: sessionStatus } = useSession();
 
-    const { owner, repo } = useParams();
-    const { setMessages } = useCopilotMessagesContext();
-    const { setAgentSession } = useCopilotContext()
+  // Handle initial loading states
+  if (!owner || !repo || sessionStatus === "loading" || isLoadingRepo) {
+    return <LoadingSpinner />;
+  }
 
-    const { repoDetails } = useRepoDetails(owner as string, repo as string);
-
-    useCopilotReadable({
-        description: "use qa agent to answer this",
-        value: "qa_agent",
-    });
-
-
-    const { state, setState } = useCoAgent<QAAgentState>({
-        name: "qa_agent",
-        initialState: {
-            question: "",
-            repository_name: `${owner}/${repo}`,
-            messages: []
-        }
-
-    });
-
-    useEffect(() => {
-        setState({
-            question: "",
-            repository_name: `${owner}/${repo}`,
-        })
-        return () => {
-            setMessages([]);
-            setAgentSession(null);
-        }
-    }, []);
-
-    if (!owner || !repo) {
-        return <div className='min-h-96 flex justify-center items-center'>
-            <Loader2 className='animate-spin' />
-        </div>;
-    }
-
-
-    return (
-        <div className='py-4'>
-            <div className='flex bg-slate-50 -mt-10 items-center p-4'>
-                <img src={repoDetails?.image_url} alt={repo as string} className='w-12 h-12 rounded-full' />
-                <h2 className='text-2xl p-4 flex-1 font-bold'>
-                    Chat with {repo}
-                </h2>
-            </div>
-            <div className="flex flex-col">
-                <CopilotChat
-                    labels={{
-                        title: "Your Assistant",
-                        initial: "Hi! 👋 How can I assist you today?",
-                    }}
-                    onSubmitMessage={(message) => {
-                        setState({ ...state, question: message });
-                    }}
-                    RenderTextMessage={(props) => {
-                        return (
-                            <CopilotTextMessage
-                                key={props.message.id}
-                                renderMessageProps={props}
-                                repoProps={{ imageUrl: repoDetails?.image_url as string, repoName: repo as string }}
-                            />
-                        );
-                    }}
-                />
-            </div>
-        </div>
-    );
+  return (
+    <div className={cn("min-h-[calc(100vh-5rem)]")}>
+      <CopilotKit
+        runtimeUrl="/api/copilotkit"
+        showDevConsole={false}
+        agent="qa_agent"
+        threadId={`${owner}/${repo}/${session?.user?.id}`}
+      >
+        <ChatInterface
+          owner={owner as string}
+          repo={repo as string}
+          repoDetails={repoDetails as RawGithubRepoDetails}
+        />
+      </CopilotKit>
+    </div>
+  );
 };
 
 export default ChatRepoPage;

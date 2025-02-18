@@ -1,96 +1,179 @@
-'use client'
+"use client";
 
-import React, { useEffect, useState } from 'react';
-import { RepoInfo, RawGithubRepoDetails } from '@/lib/types';
-import { Loader2, Star, XCircle } from 'lucide-react';
-import Link from 'next/link';
-import { Card } from './ui/card';
+import React, { useEffect, useState } from "react";
+import { RawGithubRepoDetails } from "@/lib/types";
+import { Star, ExternalLink, AlertCircle } from "lucide-react";
+import Link from "next/link";
+import Image from "next/image";
+import { Card } from "./ui/card";
+import { Badge } from "./ui/badge";
+import { Skeleton } from "./ui/skeleton";
+import { cn } from "@/lib/utils";
 
 interface GitHubRepoCardProps {
-    repoName: string;
+  repoName: string;
+  className?: string;
 }
 
-const GitHubRepoCard: React.FC<GitHubRepoCardProps> = ({ repoName }) => {
-    const [repoInfo, setRepoInfo] = useState<RepoInfo | null>(null);
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState<string | null>(null);
-    const [owner, repo] = repoName.split('/');
+const GitHubRepoCard: React.FC<GitHubRepoCardProps> = ({
+  repoName,
+  className,
+}) => {
+  const [repoInfo, setRepoInfo] = useState<RawGithubRepoDetails | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [owner, repo] = repoName.split("/");
 
-    const formatStarCount = (count: number) => {
-        if (count >= 1000) {
-            return `${(count / 1000).toFixed(1)}k`;
+  const formatNumber = (count: number) => {
+    if (count >= 1000000) return `${(count / 1000000).toFixed(1)}m`;
+    if (count >= 1000) return `${(count / 1000).toFixed(1)}k`;
+    return count.toString();
+  };
+
+  useEffect(() => {
+    const fetchRepoInfo = async () => {
+      if (!owner || !repo) {
+        setError("Invalid repository name");
+        return;
+      }
+
+      setLoading(true);
+      setError(null);
+
+      try {
+        const response = await fetch(
+          `https://api.github.com/repos/${owner}/${repo}`,
+          {
+            headers: {
+              Authorization: `Bearer ${process.env.NEXT_PUBLIC_GITHUB_ACCESS_TOKEN}`,
+            },
+          },
+        );
+
+        if (!response.ok) {
+          throw new Error(
+            response.status === 404
+              ? "Repository not found"
+              : response.status === 403
+                ? "API rate limit exceeded"
+                : "Failed to fetch repository info",
+          );
         }
-        return count;
+
+        const data = await response.json();
+        setRepoInfo(data);
+      } catch (err) {
+        setError((err as Error).message);
+      } finally {
+        setLoading(false);
+      }
     };
 
-    useEffect(() => {
-        const fetchRepoInfo = async () => {
-            setLoading(true);
-            setError(null);
+    fetchRepoInfo();
+  }, [owner, repo]);
 
-            try {
-                const response = await fetch(`https://api.github.com/repos/${owner}/${repo}`);
-                if (!response.ok) {
-                    throw new Error(response.status === 404 ? 'Repository not found' : 'Failed to fetch repository info');
-                }
-
-                const data = await response.json() as RawGithubRepoDetails;
-
-                setRepoInfo({
-                    name: data.name,
-                    description: data.description ? data.description.length > 150 ? data.description.substring(0, 147) + '...' : data.description : "",
-                    full_name: data.full_name,
-                    homepage: data.homepage,
-                    image_url: data.owner.avatar_url,
-                    stargazers_count: data.stargazers_count,
-                    topics: data.topics.slice(0, 5),
-                    html_url: data.html_url
-                });
-            } catch (err) {
-                setError((err as Error).message);
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        fetchRepoInfo();
-    }, []);
-
+  if (loading) {
     return (
-        <div >
-            {loading && (
-                <div className='rounded-md flex gap-4 items-center mb-4'>
-                    <p>Fetching repository info</p><Loader2 className='animate-spin' />
-                </div>
-            )}
-            {error && (
-                <div className='flex gap-1 items-center mb-2'>
-                    <XCircle className='text-red-400' />
-                    <p className='text-red-500'>An Error occurred: {error}</p>
-                </div>
-            )}
-            {repoInfo && (
-                <Link href={`/d/chat/owner/${owner}/repo/${repo}`}><Card className='py-4 px-4 w-full max-w-lg hover:shadow-lg hover:cursor-pointer flex gap-4 items-center'>
-                    <img
-                        src={repoInfo.image_url}
-                        alt={`${repoInfo.name} repository`}
-                        className="h-16 w-16 rounded-full object-cover"
-                    />
-                    <div>
-                        <p className='text-sm'>
-                            {repoInfo.full_name.split('/')[0]}/
-                        </p>
-                        <h2 className='text-lg font-bold -mt-2'>{repoInfo.name}</h2>
-                        <div className="flex items-center gap-1">
-                            <Star className="h-4 w-4" />
-                            <span>{formatStarCount(repoInfo.stargazers_count)}</span>
-                        </div>
-                    </div>
-                </Card>
-                </Link>
-            )}
+      <Card className={cn("p-4", className)}>
+        <div className="flex gap-4 items-center">
+          <Skeleton className="h-16 w-16 rounded-full" />
+          <div className="space-y-2 flex-1">
+            <Skeleton className="h-4 w-[200px]" />
+            <Skeleton className="h-4 w-[150px]" />
+            <Skeleton className="h-4 w-[100px]" />
+          </div>
         </div>
+      </Card>
     );
+  }
+
+  if (error) {
+    return (
+      <Card
+        className={cn("p-4 border-destructive/50 bg-destructive/10", className)}
+      >
+        <div className="flex items-center gap-2 text-destructive">
+          <AlertCircle className="h-5 w-5" />
+          <p className="font-medium">{error}</p>
+        </div>
+      </Card>
+    );
+  }
+
+  if (!repoInfo) return null;
+
+  return (
+    <Card
+      className={cn(
+        "p-4 group relative",
+        "transition-all duration-200",
+        "hover:shadow-md hover:border-primary/20",
+        className,
+      )}
+    >
+      {/* Main card link */}
+      <Link
+        href={`/d/chat/owner/${owner}/repo/${repo}`}
+        className="absolute inset-0 z-10"
+        aria-label={`Chat about ${repoInfo.full_name}`}
+      />
+
+      {/* Card content */}
+      <div className="flex gap-4 items-start h-full relative">
+        <Image
+          src={repoInfo.owner.avatar_url}
+          alt={`${repoInfo.name} repository`}
+          width={64}
+          height={64}
+          className="rounded-full ring-2 ring-border flex-shrink-0"
+          priority
+        />
+
+        <div className="flex-1 min-w-0 flex flex-col">
+          <div className="flex items-start justify-between gap-2">
+            <div>
+              <p className="text-sm text-muted-foreground">
+                {repoInfo.full_name.split("/")[0]}
+              </p>
+              <h2 className="text-xl font-semibold truncate">
+                {repoInfo.name}
+              </h2>
+            </div>
+
+            {/* GitHub link */}
+            <div
+              onClick={(e) => {
+                e.preventDefault();
+                window.open(repoInfo.html_url, "_blank", "noopener,noreferrer");
+              }}
+              className="p-2 hover:bg-accent rounded-full cursor-pointer relative z-20"
+              role="button"
+              aria-label="Open in GitHub"
+            >
+              <ExternalLink className="h-5 w-5" />
+            </div>
+          </div>
+
+          <p className="text-sm text-muted-foreground mt-1 line-clamp-2 flex-grow">
+            {repoInfo.description || "No description available"}
+          </p>
+
+          <div className="flex flex-wrap gap-2 mt-auto pt-2">
+            <Badge variant="secondary" className="flex items-center gap-1">
+              <Star className="h-3.5 w-3.5" />
+              {formatNumber(repoInfo.stargazers_count)}
+            </Badge>
+
+            {repoInfo.topics.slice(0, 3).map((topic) => (
+              <Badge key={topic} variant="outline">
+                {topic}
+              </Badge>
+            ))}
+          </div>
+        </div>
+      </div>
+    </Card>
+  );
 };
 
 export default GitHubRepoCard;

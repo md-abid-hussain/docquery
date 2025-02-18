@@ -6,20 +6,27 @@ export interface FileNode {
 }
 
 export function parseFileTree(paths: string[]): FileNode[] {
-  const root: FileNode = { name: '', path: '', children: [], isDirectory: true };
+  const root: FileNode = {
+    name: "",
+    path: "",
+    children: [],
+    isDirectory: true,
+  };
 
-  paths.forEach(path => {
-    const parts = path.split('/');
+  paths.forEach((path) => {
+    const parts = path.split("/");
     let currentNode = root;
 
     parts.forEach((part, index) => {
       const isLast = index === parts.length - 1;
-      let existingChild = currentNode.children?.find(child => child.name === part);
+      let existingChild = currentNode.children?.find(
+        (child) => child.name === part,
+      );
 
       if (!existingChild) {
         const newNode: FileNode = {
           name: part,
-          path: parts.slice(0, index + 1).join('/'),
+          path: parts.slice(0, index + 1).join("/"),
           isDirectory: !isLast,
           children: !isLast ? [] : undefined,
         };
@@ -57,10 +64,9 @@ export function getAllDescendantPaths(node: FileNode): string[] {
   if (!node.isDirectory) {
     paths.push(node.path);
   } else {
-    node.children?.forEach(child => {
+    node.children?.forEach((child) => {
       paths = paths.concat(getAllDescendantPaths(child));
     });
   }
   return paths;
 }
-

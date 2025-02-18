@@ -8,30 +8,30 @@ DocQuery is a frontend application built with Next.js and Tailwind CSS. It provi
 
 1. Clone the repository:
 
-    ```sh
-    git clone <repository-url>
-    cd docquery-frontend
-    ```
+   ```sh
+   git clone <repository-url>
+   cd docquery-frontend
+   ```
 
 2. Install dependencies:
 
-    ```sh
-    npm install
-    ```
+   ```sh
+   npm install
+   ```
 
 3. Copy the example environment file and fill in the required values:
 
-    ```sh
-    cp .env.example .env
-    ```
+   ```sh
+   cp .env.example .env
+   ```
 
 ## Running the Application
 
 1. Start the development server:
 
-    ```sh
-    npm run dev
-    ```
+   ```sh
+   npm run dev
+   ```
 
 2. The application will be available at `http://localhost:3000`.
 

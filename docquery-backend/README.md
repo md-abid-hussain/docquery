@@ -32,6 +32,10 @@ DocQuery is a backend service that leverages `FastAPI` to provide endpoints for 
     cp .env.example .env
     ```
 
+## Configuring Mongodb Database:
+
+1. Create a cluster 
+
 ## Running the Application
 
 1. Start the FastAPI server:
