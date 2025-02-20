@@ -9,12 +9,6 @@ import { useSession } from "next-auth/react";
 import { ChatInterface } from "@/components/chat-ui/chat-interface";
 import { cn } from "@/lib/utils";
 
-const LoadingSpinner = () => (
-  <div className="min-h-[calc(100vh-5rem)] flex justify-center items-center">
-    <Loader2 className="h-12 w-12 animate-spin text-primary/60" />
-  </div>
-);
-
 const ChatRepoPage = () => {
   const { owner, repo } = useParams();
   const { repoDetails, loading: isLoadingRepo } = useRepoDetails(
@@ -25,7 +19,11 @@ const ChatRepoPage = () => {
 
   // Handle initial loading states
   if (!owner || !repo || sessionStatus === "loading" || isLoadingRepo) {
-    return <LoadingSpinner />;
+    return (
+      <div className="min-h-[calc(100vh-5rem)] flex justify-center items-center">
+        <Loader2 className="h-12 w-12 animate-spin text-primary/60" />
+      </div>
+    );
   }
 
   return (

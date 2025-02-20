@@ -1,10 +1,10 @@
-from typing import Optional, List
+from typing import Optional
+
 from copilotkit.state import CopilotKitState
-from langchain_core.documents import Document
 
 
 class QAAgentState(CopilotKitState):
     question: str
     repository_name: str
-    documents: Optional[List[Document]]
+    context: Optional[str]
     error: Optional[str]

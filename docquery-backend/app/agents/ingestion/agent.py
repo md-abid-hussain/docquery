@@ -1,7 +1,8 @@
-from .state import IngestionAgentState
-from .nodes import ingestion_node, verify_ingestion_node
-from langgraph.graph import StateGraph
 from langgraph.checkpoint.memory import MemorySaver
+from langgraph.graph import StateGraph
+
+from .nodes import ingestion_node, verify_ingestion_node
+from .state import IngestionAgentState
 
 workflow = StateGraph(IngestionAgentState)
 

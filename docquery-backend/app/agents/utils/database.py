@@ -1,6 +1,8 @@
 import os
+
 from langchain_mongodb import MongoDBAtlasVectorSearch
 from pymongo import MongoClient
+
 from .models import get_embedding_model
 
 client = MongoClient(os.environ.get("MONGODB_ATLAS_CLUSTER_URI"))

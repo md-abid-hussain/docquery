@@ -9,6 +9,9 @@ import { AssistantMessageComponent } from "./assistant-message";
 import { UserMessageComponent } from "./user-message";
 import { cn } from "@/lib/utils";
 import { ChatInput } from "./chat-input";
+import { useCopilotMessagesContext } from "@copilotkit/react-core";
+import { TextMessage } from "@copilotkit/runtime-client-gql";
+import { useEffect, useState } from "react";
 
 interface ChatInterfaceProps {
   owner: string;
@@ -21,6 +24,71 @@ export const ChatInterface = ({
   repo,
   repoDetails,
 }: ChatInterfaceProps) => {
+  const [isStorageEnabled, setIsStorageEnabled] = useState(() => {
+    // Check if there's a saved preference
+    const saved = localStorage.getItem("chatStoragePreference");
+    return saved ? JSON.parse(saved) : true;
+  });
+  const { messages, setMessages } = useCopilotMessagesContext();
+  const storageKey = `copilot-messages-${owner}-${repo}`;
+
+  // Load messages from localStorage on initial render
+  useEffect(() => {
+    if (!isStorageEnabled) {
+      return;
+    }
+    const storedMessages = localStorage.getItem(storageKey);
+    if (storedMessages) {
+      try {
+        const parsedMessages = JSON.parse(storedMessages);
+        const reconstructedMessages = parsedMessages
+          .map((message: any) => {
+            switch (message.type) {
+              case "TextMessage":
+                return new TextMessage({
+                  id: message.id,
+                  role: message.role,
+                  content: message.content,
+                  createdAt: message.createdAt,
+                });
+              default:
+                console.warn(`Unknown message type: ${message.type}`);
+                return null;
+            }
+          })
+          .filter(Boolean);
+
+        setMessages(reconstructedMessages);
+      } catch (error) {
+        console.error("Error loading messages from localStorage:", error);
+        localStorage.removeItem(storageKey);
+      }
+    }
+  }, [setMessages, storageKey]);
+
+  // Save messages to localStorage when they change
+  useEffect(() => {
+    if (!isStorageEnabled) {
+      localStorage.removeItem(storageKey);
+      return;
+    }
+    if (messages.length > 0) {
+      const serializedMessages = messages.map((message) => ({
+        ...message,
+        type: message.constructor.name,
+      }));
+      localStorage.setItem(storageKey, JSON.stringify(serializedMessages));
+    }
+  }, [messages, owner, repo, storageKey]);
+
+  // Add this effect to save the preference
+  useEffect(() => {
+    localStorage.setItem(
+      "chatStoragePreference",
+      JSON.stringify(isStorageEnabled),
+    );
+  }, [isStorageEnabled]);
+
   const { state, setState } = useCoAgent<QAAgentState>({
     name: "qa_agent",
     initialState: {
@@ -29,6 +97,8 @@ export const ChatInterface = ({
       messages: [],
     },
   });
+
+  const avatarUrl = repoDetails?.owner?.avatar_url;
 
   // Loading state check
   if (!owner || !repo) {
@@ -39,11 +109,8 @@ export const ChatInterface = ({
     );
   }
 
-  const avatarUrl = repoDetails?.owner?.avatar_url;
-
   return (
     <div className="flex flex-col min-h-[calc(100vh-5rem)]">
-      {/* Chat Header */}
       <div className="sticky top-16 z-10 bg-white border-b shadow-sm">
         <div className="container mx-auto">
           <div className="flex items-center gap-4 py-4">
@@ -80,9 +147,8 @@ export const ChatInterface = ({
         </div>
       </div>
 
-      {/* Chat Content */}
       <div className="flex-1 bg-zinc-50/50">
-        <div className="container mx-auto">
+        <div className="px-2 md:container mx-auto">
           <CopilotChat
             labels={{
               title: "Repository Assistant",
@@ -106,7 +172,15 @@ export const ChatInterface = ({
                 url={avatarUrl}
               />
             )}
-            Input={ChatInput}
+            Input={(props) => (
+              <ChatInput
+                {...props}
+                isStorageEnabled={isStorageEnabled}
+                onStorageToggle={(enabled) => {
+                  setIsStorageEnabled(enabled);
+                }}
+              />
+            )}
           />
         </div>
       </div>

@@ -6,5 +6,9 @@ langchain-mongodb
 pymongo
 langchain-google-genai
 copilotkit
-fastapi[standard]
+fastapi
 uvicorn
+psycopg[binary]
+psycopg-pool
+langgraph
+langgraph-checkpoint-postgres

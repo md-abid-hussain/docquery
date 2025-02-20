@@ -46,7 +46,7 @@ export function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2, duration: 0.5 }}
-            className="flex flex-col sm:flex-row items-center gap-4"
+            className="flex flex-col sm:flex-row items-center gap-4 "
           >
             <Button size="lg" className="group">
               <Link href="/d/chat" className="flex items-center gap-2">
@@ -60,13 +60,13 @@ export function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4, duration: 0.5 }}
-            className="grid grid-cols-1 sm:grid-cols-3 gap-8 mt-16"
+            className="grid grid-cols-1 sm:grid-cols-3 gap-8 mt-16 "
           >
             {features.map((feature) => (
               <div
                 key={feature.title}
                 className="flex flex-col items-center space-y-2 p-4 rounded-lg 
-                  bg-white dark:bg-zinc-800/50 shadow-sm hover:shadow-md transition-shadow"
+                  bg-white dark:bg-zinc-800/50 shadow-md hover:shadow-lg transition-shadow"
               >
                 <div className="p-3 rounded-full bg-primary/10 text-primary">
                   {feature.icon}
