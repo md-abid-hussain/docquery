@@ -42,7 +42,7 @@ export const ChatInterface = ({
       try {
         const parsedMessages = JSON.parse(storedMessages);
         const reconstructedMessages = parsedMessages
-          .map((message: any) => {
+          .map((message: TextMessage) => {
             switch (message.type) {
               case "TextMessage":
                 return new TextMessage({
