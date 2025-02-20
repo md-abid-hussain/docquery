@@ -7,7 +7,7 @@ const techStack = [
   { name: "LangGraph", logo: "/langgraph-logo.png" },
   { name: "Next.js", logo: "/nextjs-logo.jpg" },
   { name: "CopilotKit", logo: "/copilotkit-logo.png" },
-  { name: "CoAgent-0.3", logo: "/coagent-logo.jpg" },
+  { name: "CoAgent v0.5", logo: "/coagent-logo.jpg" },
   { name: "shadcn/ui", logo: "/shadcn-logo.png" },
   { name: "MongoDB", logo: "/mongodb-logo.jpg" },
   { name: "Together AI", logo: "/togetherai-logo.jpg" },
