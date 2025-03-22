@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import "@copilotkit/react-ui/styles.css";
 import "./globals.css";
 
@@ -31,11 +33,9 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {/* <CopilotKit runtimeUrl="/api/copilotkit" showDevConsole={false}> */}
-
         {children}
-
-        {/* </CopilotKit> */}
+        <SpeedInsights />
+        <Analytics />
       </body>
     </html>
   );
