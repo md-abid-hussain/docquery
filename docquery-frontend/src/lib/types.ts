@@ -20,6 +20,7 @@ export type RawGithubRepoDetails = {
   owner: {
     avatar_url: string;
   };
+  default_branch: string;
 };
 
 export type RepositoryDetails = {
@@ -27,6 +28,7 @@ export type RepositoryDetails = {
   full_name: string;
   files_path: Array<string>;
   repository_url: string;
+  branch: string;
 };
 
 export type IngestionAgentState = {
@@ -39,5 +41,6 @@ export type IngestionAgentState = {
 
 export type QAAgentState = {
   repository_name: string;
+  branch: string;
   question: string;
 };

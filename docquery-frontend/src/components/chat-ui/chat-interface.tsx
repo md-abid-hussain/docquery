@@ -94,6 +94,7 @@ export const ChatInterface = ({
     initialState: {
       question: "",
       repository_name: `${owner}/${repo}`,
+      branch: repoDetails.default_branch,
       messages: [],
     },
   });
